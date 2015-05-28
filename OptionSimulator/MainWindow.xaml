@@ -1,0 +1,56 @@
+﻿<Window x:Class="OptionSimulator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
+        Title="MainWindow" Height="810.642" Width="845.213">
+    <Grid>
+        <TextBox x:Name="samples_txt" HorizontalAlignment="Left" Height="24" Margin="69,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="61" Text="100"/>
+        <ComboBox x:Name="stock_price_model_select" HorizontalAlignment="Left" Height="26" Margin="301,10,0,0" VerticalAlignment="Top" Width="195" SelectionChanged="stock_price_model_select_SelectionChanged"/>
+        <Button x:Name="calculate_btn" Content="Calculate Price" HorizontalAlignment="Left" Height="52" Margin="637,17,0,0" VerticalAlignment="Top" Width="173" Click="calculate_btn_Click"/>
+        <Label x:Name="price_lbl" Content="Price" HorizontalAlignment="Left" Height="36" Margin="637,74,0,0" VerticalAlignment="Top" Width="173"/>
+        <Label x:Name="std_err_lbl" Content="SE" HorizontalAlignment="Left" Height="36" Margin="637,115,0,0" VerticalAlignment="Top" Width="173"/>
+        <Label x:Name="err_lbl" Content="Label" HorizontalAlignment="Left" Height="28" Margin="637,156,0,0" VerticalAlignment="Top" Width="190" Foreground="Red"/>
+        <ListView x:Name="stock_list" HorizontalAlignment="Left" Height="281" Margin="10,126,0,0" VerticalAlignment="Top" Width="486">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="Name: " />
+                        <TextBox Tag="Name" Text="{Binding Name}" IsEnabled="False"/>
+                        <TextBlock Text="Initial Price: $" />
+                        <TextBox Tag="Price" Text="{Binding InitialPrice}" IsEnabled="False"/>
+                        <TextBlock Text=" (Volatility: " />
+                        <TextBox Tag="Vol" Text="{Binding Sig}" IsEnabled="False"/>
+                        <TextBlock Text=")" />
+                        <Button Content="Edit" Click="Button_Click" Tag="not editing"></Button>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <TextBox x:Name="stock_name_txt" HorizontalAlignment="Left" Height="23" Margin="10,98,0,0" TextWrapping="Wrap" Text="Stock Name" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="vol_txt" HorizontalAlignment="Left" Height="23" Margin="255,98,0,0" TextWrapping="Wrap" Text="Volatility" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="add_stock_btn" Content="Add Stock" HorizontalAlignment="Left" Margin="380,98,0,0" VerticalAlignment="Top" Width="116" Click="add_stock_btn_Click" Height="23"/>
+        <TextBox x:Name="init_price_txt" HorizontalAlignment="Left" Height="23" Margin="130,98,0,0" TextWrapping="Wrap" Text="Initial Price" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="interest_rate_txt" HorizontalAlignment="Left" Height="23" Margin="156,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" Text="0.05"/>
+        <TextBox x:Name="intervals_txt" HorizontalAlignment="Left" Height="23" Margin="69,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="61" Text="100"/>
+        <TextBox x:Name="T_txt" HorizontalAlignment="Left" Height="23" Margin="156,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" Text="1"/>
+        <TextBox x:Name="strike_txt" HorizontalAlignment="Left" Height="23" Margin="175,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Text="50"/>
+        <Label Content="Strike" HorizontalAlignment="Left" Margin="130,66,0,0" VerticalAlignment="Top"/>
+        <Label Content="T" HorizontalAlignment="Left" Margin="135,38,0,0" VerticalAlignment="Top"/>
+        <Label Content="r" HorizontalAlignment="Left" Margin="135,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="Intervals" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top"/>
+        <Label Content="# Trials" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <RadioButton Content="Call" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" GroupName="OptionType" IsChecked="True" Checked="RadioButton_Checked"/>
+        <RadioButton Content="Put" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" GroupName="OptionType" Checked="RadioButton_Checked"/>
+        <RadioButton Content="American" HorizontalAlignment="Left" Margin="61,80,0,0" VerticalAlignment="Top" GroupName="Amer_Euro" IsEnabled="False"/>
+        <RadioButton Content="European" HorizontalAlignment="Left" Margin="61,65,0,0" VerticalAlignment="Top" GroupName="Amer_Euro" IsChecked="True"/>
+        <TextBox x:Name="custom_payoff_txt" HorizontalAlignment="Left" Height="23" Margin="301,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" ToolTip="Ex: Max(Avg(S1) - K, 0.0)"/>
+        <Label Content="Custom Payoff" HorizontalAlignment="Left" Margin="301,41,0,0" VerticalAlignment="Top"/>
+        <oxy:PlotView x:Name="Plot1" Title="A Graph" Margin="10,412,10,10"></oxy:PlotView>
+        <TextBox x:Name="longvar_txt" HorizontalAlignment="Left" Height="23" Margin="564,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" IsEnabled="False" Text="0.2"/>
+        <TextBox x:Name="theta_txt" HorizontalAlignment="Left" Height="23" Margin="550,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="82" IsEnabled="False" Text="0.5"/>
+        <TextBox x:Name="eps_txt" HorizontalAlignment="Left" Height="23" Margin="550,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="82" IsEnabled="False" Text="0.5"/>
+        <Label Content="Long Var" HorizontalAlignment="Left" Margin="501,10,0,0" VerticalAlignment="Top" Height="23"/>
+        <Label Content="Theta" HorizontalAlignment="Left" Margin="505,39,0,0" VerticalAlignment="Top" Height="23"/>
+        <Label Content="Epsilon" HorizontalAlignment="Left" Margin="505,62,0,0" VerticalAlignment="Top" Height="23"/>
+    </Grid>
+</Window>
