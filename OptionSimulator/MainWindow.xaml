@@ -39,10 +39,10 @@
         <Label Content="r" HorizontalAlignment="Left" Margin="135,10,0,0" VerticalAlignment="Top"/>
         <Label Content="Intervals" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top"/>
         <Label Content="# Trials" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <RadioButton Content="Call" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" GroupName="OptionType" IsChecked="True" Checked="RadioButton_Checked"/>
-        <RadioButton Content="Put" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" GroupName="OptionType" Checked="RadioButton_Checked"/>
+        <RadioButton Content="Call" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" GroupName="OptionType" Checked="RadioButton_Checked" IsEnabled="False"/>
+        <RadioButton Content="Put" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" GroupName="OptionType" Checked="RadioButton_Checked" IsEnabled="False"/>
         <RadioButton Content="American" HorizontalAlignment="Left" Margin="61,80,0,0" VerticalAlignment="Top" GroupName="Amer_Euro" IsEnabled="False"/>
-        <RadioButton Content="European" HorizontalAlignment="Left" Margin="61,65,0,0" VerticalAlignment="Top" GroupName="Amer_Euro" IsChecked="True"/>
+        <RadioButton Content="European" HorizontalAlignment="Left" Margin="61,65,0,0" VerticalAlignment="Top" GroupName="Amer_Euro" IsEnabled="False"/>
         <TextBox x:Name="custom_payoff_txt" HorizontalAlignment="Left" Height="23" Margin="301,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" ToolTip="Ex: Max(Avg(S1) - K, 0.0)"/>
         <Label Content="Custom Payoff" HorizontalAlignment="Left" Margin="301,41,0,0" VerticalAlignment="Top"/>
         <oxy:PlotView x:Name="Plot1" Title="A Graph" Margin="10,412,10,10"></oxy:PlotView>

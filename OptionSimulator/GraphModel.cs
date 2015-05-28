@@ -74,7 +74,7 @@ namespace OptionSimulator
                     StrokeThickness = 2,
                     MarkerSize = 3,
                     MarkerStroke = OxyColor.FromRgb(255, 0, 0),
-                    MarkerType = MarkerType.Circle,
+                    MarkerType = MarkerType.None,
                     CanTrackerInterpolatePoints = false,
                     Title = string.Format("Simulation {0}", i++),
                     Smooth = false,
