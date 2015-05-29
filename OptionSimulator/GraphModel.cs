@@ -58,7 +58,8 @@ namespace OptionSimulator
             var valueAxis = new LinearAxis(AxisPosition.Left) { 
                 MajorGridlineStyle = LineStyle.Solid, 
                 MinorGridlineStyle = LineStyle.Dot, 
-                Title = "Stock Price ($)" 
+                Title = "Stock Price ($)",
+                IntervalLength = 25
             };
             PlotModel.Axes.Add(valueAxis);
         }

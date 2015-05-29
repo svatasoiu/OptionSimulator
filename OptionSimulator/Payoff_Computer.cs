@@ -49,42 +49,44 @@ namespace OptionSimulator
             foreach (Stock stock in stocks.Values)
                 prices[stock.Name] = stock.final_prices;
 
+            int j = 0;
+            // very expensive to make new expression every time...
+            Expression e = new Expression(payoff_replaced);
+
+            e.EvaluateParameter += delegate(string name, ParameterArgs args)
+            {
+                args.Result = prices[name][j];
+            };
+
+            e.EvaluateFunction += delegate(string name, FunctionArgs args)
+            {
+                switch (name)
+                {
+                    case "Max":
+                        double p1, p2;
+                        var arg1 = args.Parameters[0].Evaluate();
+                        var arg2 = args.Parameters[1].Evaluate();
+                        try { p1 = (double)arg1; }
+                        catch (InvalidCastException _) { p1 = (int)arg1; }
+                        try { p2 = (double)arg2; }
+                        catch (InvalidCastException _) { p2 = (int)arg2; }
+
+                        args.Result = Math.Max(p1, p2);
+                        break;
+                    case "Avg":
+                        string parsed = args.Parameters[0].ParsedExpression.ToString();
+                        args.Result = stocks[parsed.Substring(1, parsed.Length - 2)].price_paths.Row(j).Average();
+                        break;
+                    case "Geom_avg":
+                        break;
+                    default:
+                        break;
+                }
+            };
+
             payoffs = Vector<double>.Build.Dense(num_samples, (i) =>
             {
-                // very expensive to make new expression every time...
-                Expression e = new Expression(payoff_replaced);
-
-                e.EvaluateParameter += delegate(string name, ParameterArgs args)
-                {
-                    args.Result = prices[name][i];
-                };
-
-                e.EvaluateFunction += delegate(string name, FunctionArgs args)
-                {
-                    switch (name)
-                    {
-                        case "Max":
-                            double p1, p2;
-                            var arg1 = args.Parameters[0].Evaluate();
-                            var arg2 = args.Parameters[1].Evaluate();
-                            try { p1 = (double) arg1; }
-                            catch (InvalidCastException _) { p1 = (int) arg1; }
-                            try { p2 = (double) arg2; }
-                            catch (InvalidCastException _) { p2 = (int) arg2; }
-
-                            args.Result = Math.Max(p1, p2);
-                            break;
-                        case "Avg":
-                            string parsed = args.Parameters[0].ParsedExpression.ToString();
-                            args.Result = stocks[parsed.Substring(1, parsed.Length - 2)].price_paths.Row(i).Average();
-                            break;
-                        case "Geom_avg":
-                            break;
-                        default:
-                            break;
-                    }
-                };
-
+                j = i;
                 return (double)e.Evaluate(); // Math.Max((double)e.Evaluate(), 0);
             });
             return true;
